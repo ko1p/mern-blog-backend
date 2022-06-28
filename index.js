@@ -2,8 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
 
-import * as UserController from "./controllers/userController.js";
-import * as PostController from "./controllers/postController.js";
+import { PostController, UserController } from "./controllers/contollers.js";
 
 import { loginValidation, postCreateValidation, registerValidation } from "./validations/validations.js";
 
