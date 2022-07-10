@@ -1,8 +1,9 @@
 import PostModel from "../models/post.js";
 
 export const getAll = async (req, res) => {
+  const sortingParam = req.query.sortBy === 'views' ? '-viewsCount' : '-createdAt';
   try {
-    const posts = await PostModel.find().populate("user").exec();
+    const posts = await PostModel.find().populate("user").sort(sortingParam).exec();
 
     res.json(posts);
   } catch (err) {
