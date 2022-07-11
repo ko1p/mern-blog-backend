@@ -14,6 +14,20 @@ export const getAll = async (req, res) => {
   }
 };
 
+export const getAllByTag = async (req, res) => {
+  const tag = req.params.tag;
+  try {
+    const posts = await PostModel.find({tags: tag}).populate("user").sort('-viewsCount').exec();
+
+    res.json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось получить статьи по тегу.",
+    });
+  }
+};
+
 export const getOne = async (req, res) => {
   try {
     const postId = req.params.id;
