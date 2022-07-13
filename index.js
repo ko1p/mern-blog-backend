@@ -3,9 +3,9 @@ import cors from 'cors';
 import mongoose from "mongoose";
 import multer from "multer";
 
-import { PostController, UserController } from "./controllers/contollers.js";
+import { CommentController, PostController, UserController } from "./controllers/contollers.js";
 
-import { loginValidation, postCreateValidation, registerValidation } from "./validations/validations.js";
+import { loginValidation, postCreateValidation, registerValidation, commentCreateValidation } from "./validations/validations.js";
 
 import { checkAuth, handleValidationErrors } from "./utils/utils.js";
 
@@ -50,10 +50,12 @@ app.post("/upload", checkAuth, upload.single('image'), (req, res) => {
 app.get("/posts", PostController.getAll);
 app.get("/posts/:id", PostController.getOne);
 app.get("/tags", PostController.getLastTags);
-app.get("/tags/:tag", PostController.getAllByTag)
+app.get("/tags/:tag", PostController.getAllByTag);
 app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
+// app.get("/comments/:postId", CommentController.fetchPostComments);
+app.post("/comments/:postId", checkAuth, commentCreateValidation, handleValidationErrors, CommentController.fetchAddComment);
 
 app.listen(4444, (err) => {
   if (err) {
