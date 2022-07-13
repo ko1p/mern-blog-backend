@@ -54,7 +54,7 @@ app.get("/tags/:tag", PostController.getAllByTag);
 app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
-// app.get("/comments/:postId", CommentController.fetchPostComments);
+app.get("/comments/:postId", CommentController.fetchPostComments);
 app.post("/comments/:postId", checkAuth, commentCreateValidation, handleValidationErrors, CommentController.fetchAddComment);
 
 app.listen(4444, (err) => {
