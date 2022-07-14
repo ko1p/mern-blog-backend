@@ -34,9 +34,17 @@ export const getPostComments = (req, res) => {
   }
 };
 
-export const getLastComments = (req, res) => {
+export const getLastComments = async (req, res) => {
   try {
-  } catch (err) {}
+    const comments = await CommentModel.find().populate("user").sort('createdAt').limit(5).exec();
+
+    res.json(comments);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось получить комментарии.",
+    });
+  }
 };
 
 export const create = async (req, res) => {
@@ -58,7 +66,7 @@ export const create = async (req, res) => {
   }
 };
 
-export const edit = async (req, res) => {
+export const update = async (req, res) => {
   try {
     const { commentId } = req.params;
 
