@@ -5,7 +5,7 @@ export const fetchPostComments = (req, res) => {
     const { postId } = req.params;
     CommentModel.find(
       {
-        post: postId
+        post: postId,
       },
       (err, doc) => {
         if (err) {
@@ -58,7 +58,21 @@ export const fetchAddComment = async (req, res) => {
   }
 };
 
-export const fetchEditComment = (req, res) => {
+export const fetchEditComment = async (req, res) => {
   try {
-  } catch (err) {}
+    const commentId = req.params.id;
+
+    await CommentModel.findOneAndUpdate(commentId, {
+      $set: { ["text"]: req.body.text },
+    });
+
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось отредактировать комментарий.",
+    });
+  }
 };
