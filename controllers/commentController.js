@@ -1,6 +1,6 @@
 import CommentModel from "../models/comment.js";
 
-export const fetchPostComments = (req, res) => {
+export const getPostComments = (req, res) => {
   try {
     const { postId } = req.params;
     CommentModel.find(
@@ -34,12 +34,12 @@ export const fetchPostComments = (req, res) => {
   }
 };
 
-export const fetchLastComments = (req, res) => {
+export const getLastComments = (req, res) => {
   try {
   } catch (err) {}
 };
 
-export const fetchAddComment = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const doc = new CommentModel({
       text: req.body.text,
@@ -58,9 +58,9 @@ export const fetchAddComment = async (req, res) => {
   }
 };
 
-export const fetchEditComment = async (req, res) => {
+export const edit = async (req, res) => {
   try {
-    const commentId = req.params.id;
+    const { commentId } = req.params;
 
     await CommentModel.findOneAndUpdate(commentId, {
       $set: { ["text"]: req.body.text },
@@ -73,6 +73,38 @@ export const fetchEditComment = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Не удалось отредактировать комментарий.",
+    });
+  }
+};
+
+export const remove = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    CommentModel.findByIdAndDelete(
+      commentId,
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: "Не удалось удалить комментарий.",
+          });
+        }
+        if (!doc) {
+          console.log(err);
+          return res.status(404).json({
+            message: "Комментарий не найден.",
+          });
+        }
+        res.json({
+          success: true,
+        });
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось получить комментарии.",
     });
   }
 };
