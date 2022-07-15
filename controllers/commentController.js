@@ -36,7 +36,7 @@ export const getPostComments = (req, res) => {
 
 export const getLastComments = async (req, res) => {
   try {
-    const comments = await CommentModel.find().populate("user").sort('createdAt').limit(5).exec();
+    const comments = await CommentModel.find().populate("user").sort('createdAt').limit(3).exec();
 
     res.json(comments);
   } catch (err) {
