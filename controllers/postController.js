@@ -156,7 +156,9 @@ export const getLastTags = async (req, res) => {
   try {
     const posts = await PostModel.find().limit(5).exec();
 
-    const tags = posts.map(post => post.tags).flat().slice(0, 5);
+    const allTags = posts.map(post => post.tags).flat();
+    const uniqueTags = new Set(allTags);
+    const tags = [...uniqueTags].slice(0, 5);
 
     res.json(tags);
   } catch (err) {
