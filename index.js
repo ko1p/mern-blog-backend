@@ -30,9 +30,7 @@ import { checkAuth, handleValidationErrors } from "./utils/utils.js";
 
 
 mongoose
-  .connect(
-    "mongodb+srv://qBBma6VU2r9Ztf0y:Wz45AhfercA8Kw0T@cluster0.32wundr.mongodb.net/blog?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("DB connected.");
   })
@@ -117,7 +115,7 @@ app.patch(
 );
 app.delete("/comments/:commentId", checkAuth, CommentController.remove);
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log(err);
   }
