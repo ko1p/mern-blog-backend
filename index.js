@@ -30,7 +30,7 @@ import { checkAuth, handleValidationErrors } from "./utils/utils.js";
 
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI || `mongodb+srv://qBBma6VU2r9Ztf0y:Wz45AhfercA8Kw0T@cluster0.32wundr.mongodb.net/blog?retryWrites=true&w=majority`)
   .then(() => {
     console.log("DB connected.");
   })
@@ -41,7 +41,7 @@ mongoose
 const app = express();
 
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 app.use(fileUpload({}));
 app.use(express.json());
 app.use(cors());
